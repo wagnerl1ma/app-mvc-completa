@@ -1,3 +1,4 @@
+using AutoMapper;
 using DevIO.App.Data;
 using DevIO.Business.Interfaces;
 using DevIO.Data.Context;
@@ -37,6 +38,8 @@ namespace DevIO.App
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddRazorPages();
 
