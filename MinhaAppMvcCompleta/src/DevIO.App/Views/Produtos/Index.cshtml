@@ -34,7 +34,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @*@Html.DisplayNameFor(model => model.Imagem)*@
+                <img src="~/imagens/@item.Imagem" alt="@item.Imagem" style="width: 70px; height: 100px" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nome)
