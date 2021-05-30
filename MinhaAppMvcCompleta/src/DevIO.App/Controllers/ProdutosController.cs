@@ -20,14 +20,19 @@ namespace DevIO.App.Controllers
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IFornecedorRepository _fornecedorRepository;
-        //private readonly IProdutoService _produtoService;
+        private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
 
-        public ProdutosController(IProdutoRepository produtoRepository, IFornecedorRepository fornecedorRepository, IMapper mapper)
+        public ProdutosController(IProdutoRepository produtoRepository,
+                                  IFornecedorRepository fornecedorRepository,
+                                  IMapper mapper,
+                                  IProdutoService produtoService,
+                                  INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
+            _produtoService = produtoService;
         }
 
         // GET: Produtos
@@ -86,8 +91,13 @@ namespace DevIO.App.Controllers
 
             produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
 
-            await _produtoRepository.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
+            if (!OperacaoValida())
+            {
+                return View(produtoViewModel);
+            }
+                
             return RedirectToAction(nameof(Index));
         }
 
@@ -148,7 +158,12 @@ namespace DevIO.App.Controllers
             produtoAtualizacao.Ativo = produtoViewModel.Ativo;
 
 
-            await _produtoRepository.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+
+            if (!OperacaoValida())
+            {
+                return View(produtoViewModel);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -182,7 +197,15 @@ namespace DevIO.App.Controllers
                 return NotFound();
             }
 
-            await _produtoRepository.Remover(id);
+            await _produtoService.Remover(id);
+
+            if (!OperacaoValida())
+            {
+                return View(produto);
+            }
+
+            TempData["Sucesso"] = "Produto excluido com sucesso!";
+
             return RedirectToAction(nameof(Index));
         }
 

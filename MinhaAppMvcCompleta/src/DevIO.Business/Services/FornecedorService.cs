@@ -25,6 +25,7 @@ namespace DevIO.Business.Services
 
         public async Task Adicionar(Fornecedor fornecedor)
         {
+            //se a Validação não for valida, retorna e nao faz a adição
             if (!ExecutarValidacao(new FornecedorValidation(), fornecedor)
                 || !ExecutarValidacao(new EnderecoValidation(), fornecedor.Endereco)) return;
 
@@ -37,24 +38,51 @@ namespace DevIO.Business.Services
             await _fornecedorRepository.Adicionar(fornecedor);
         }
 
-        public Task Atualizar(Fornecedor fornecedor)
+        public async Task Atualizar(Fornecedor fornecedor)
         {
-            throw new NotImplementedException();
+            //se a Validação não for valida, retorna e nao faz a atualização
+            if (!ExecutarValidacao(new FornecedorValidation(), fornecedor)) return;
+
+            if (_fornecedorRepository.Buscar(f => f.Documento == fornecedor.Documento && f.Id != fornecedor.Id).Result.Any())
+            {
+                Notificar("Já existe um fornecedor com este documento infomado.");
+                return;
+            }
+
+            await _fornecedorRepository.Atualizar(fornecedor);
         }
 
-        public Task AtualizarEndereco(Endereco endereco)
+        public async Task AtualizarEndereco(Endereco endereco)
         {
-            throw new NotImplementedException();
+            //se o endereco não for valido, retorna e nao faz a atualização
+            if (!ExecutarValidacao(new EnderecoValidation(), endereco)) return;
+
+            await _enderecoRepository.Atualizar(endereco);
         }
 
-        public Task Remover(Guid id)
+        public async Task Remover(Guid id)
         {
-            throw new NotImplementedException();
+            if (_fornecedorRepository.ObterFornecedorProdutosEndereco(id).Result.Produtos.Any())
+            {
+                Notificar("O fornecedor possui produtos cadastrados!");
+                return;
+            }
+
+            var endereco = await _enderecoRepository.ObterEnderecoPorFornecedor(id);
+
+            if (endereco != null)
+            {
+                await _enderecoRepository.Remover(endereco.Id);
+            }
+
+            await _fornecedorRepository.Remover(id);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            //? = Se ele existir faça o Dispose, se nao exister não faça
+            _fornecedorRepository?.Dispose();
+            _enderecoRepository?.Dispose();
         }
     }
 }
