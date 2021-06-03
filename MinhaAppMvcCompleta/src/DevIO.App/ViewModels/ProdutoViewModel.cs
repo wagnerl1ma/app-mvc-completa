@@ -1,4 +1,5 @@
-﻿using DevIO.App.Extensions;
+﻿using AutoMapper.Configuration.Annotations;
+using DevIO.App.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace DevIO.App.ViewModels
         public string Descricao { get; set; }
 
         [DisplayName("Imagem do Produto")]
+        //[Ignore]
         public IFormFile ImagemUpload { get; set; }
 
         public string Imagem { get; set; }
