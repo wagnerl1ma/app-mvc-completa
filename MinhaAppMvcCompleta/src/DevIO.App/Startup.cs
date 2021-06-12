@@ -77,9 +77,9 @@ namespace DevIO.App
             {
                 app.UseExceptionHandler("/erro/500");
                 app.UseStatusCodePagesWithRedirects("/erro/{0}");
-                app.UseHsts();
+                app.UseHsts(); // te força para uma conexao segura
             }
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); //redireciona para o https
             app.UseStaticFiles();
 
             app.UseRouting();

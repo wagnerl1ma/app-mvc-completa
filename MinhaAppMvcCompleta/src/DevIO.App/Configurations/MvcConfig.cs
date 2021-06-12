@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,8 @@ namespace DevIO.App.Configurations
                 o.ModelBindingMessageProvider.SetValueMustBeANumberAccessor(x => "O campo deve ser numérico.");
                 o.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => "Este campo precisa ser preenchido.");
 
-                //o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                //Validação automatica do Token dos atributos em todas as requisições, sendo assim não necessário inserir o [ValidateAntiForgeryToken] nas Controllers.
+                o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());  
             });
 
             services.AddRazorPages();
