@@ -56,7 +56,8 @@ namespace DevIO.Data.Repository
         public virtual async Task Remover(Guid id)
         {
             //Remove do banco sem precisar fazer a busca no banco.
-            //ex: Não é necessário usar o metodo Find para encontrar o id, e devolver o objeto para remover.
+            //ex: Não é necessário usar o metodo Find para encontrar o id, e devolver o objeto para remover. Com o "new TEntity" você passa somente o Id para remover.
+            // E isso é possível porque todo mundo herda de TEntity
 
             DbSet.Remove(new TEntity { Id = id });
             await SaveChanges();
