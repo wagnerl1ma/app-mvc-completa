@@ -17,7 +17,7 @@ Link do curso: https://desenvolvedor.io/curso-online-dominando-o-asp-net-mvc-cor
 - Partial Views
 - Customização de Tag Helpers com Razor
 - Upload e Update de imagens
-- Detalhes dos filmes e gêneros com Modal Windows
+- Atualização de Endereço com Modal Windows
 - Criação de Data Notation personalizada
 - Migrations com Entity Framework Core
 - Pesquisa do CEP com Ajax.
