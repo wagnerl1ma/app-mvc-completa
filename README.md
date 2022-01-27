@@ -3,7 +3,7 @@ Curso Desenvolvedor.IO - Dominando o ASP.NET MVC Core
 
 # Sobre o projeto
 
-O projeto Minha App Mvc Completa é uma aplicação web, construída com os ensinamentos do curso Dominando o ASP.NET MVC Core.
+O projeto Minha App Mvc é uma aplicação web, construída com os ensinamentos do curso Dominando o ASP.NET MVC Core.
 
 Link do curso: https://desenvolvedor.io/curso-online-dominando-o-asp-net-mvc-core
 
